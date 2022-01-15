@@ -4,10 +4,10 @@ open Printf
 
 module String = struct
   [@@@warning "-32-3"]
-  let capitalize_ascii   = String.capitalize
-  let uncapitalize_ascii = String.uncapitalize
-  let uppercase_ascii    = String.uppercase
-  let lowercase_ascii    = String.lowercase
+  let capitalize_ascii   = String.capitalize_ascii
+  let uncapitalize_ascii = String.uncapitalize_ascii
+  let uppercase_ascii    = String.uppercase_ascii
+  let lowercase_ascii    = String.lowercase_ascii
   include String
 end
 

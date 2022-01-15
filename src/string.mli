@@ -32,8 +32,8 @@ val make : int -> char -> t
 
 (** Assuming you haven't passed -unsafe-string to the compiler, strings are immutable, so
     there'd be no motivation to make a copy. *)
-val copy : t -> t
-[@@deprecated "[since 2018-03] Use [Bytes.copy] instead"]
+(* val copy : t -> t
+[@@deprecated "[since 2018-03] Use [Bytes.copy] instead"] *)
 
 val init : int -> f:(int -> char) -> t
 

@@ -78,8 +78,8 @@ module Obj = struct
   module Extension_constructor = struct
     [@@@ocaml.warning "-3"]
 
-    let id = Caml.Obj.extension_id
-    let of_val = Caml.Obj.extension_constructor
+    let id = Caml.Obj.Extension_constructor.id
+    let of_val = Caml.Obj.Extension_constructor.of_val
   end
 end
 
