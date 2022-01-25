@@ -6,7 +6,7 @@ let sexp_of_t = (sexp_of_exn : t -> Sexplib0.Sexp.t)
 
 [@@@end]
 
-let exit = Caml.exit
+let exit = Stdlib.exit
 
 exception Finally of t * t [@@deriving_inline sexp]
 
@@ -115,8 +115,8 @@ include Pretty_printer.Register_pp (struct
 let print_with_backtrace exc raw_backtrace =
   Caml.Format.eprintf "@[<2>Uncaught exception:@\n@\n@[%a@]@]@\n@." pp exc;
   if Caml.Printexc.backtrace_status ()
-  then Caml.Printexc.print_raw_backtrace Caml.stderr raw_backtrace;
-  Caml.flush Caml.stderr
+  then Caml.Printexc.print_raw_backtrace Stdlib.stderr raw_backtrace;
+  Stdlib.flush Stdlib.stderr
 ;;
 
 let set_uncaught_exception_handler () =
@@ -133,7 +133,7 @@ let handle_uncaught_aux ~do_at_exit ~exit f =
        handler does the same. *)
     if do_at_exit
     then (
-      try Caml.do_at_exit () with
+      try Stdlib.do_at_exit () with
       | _ -> ());
     (try print_with_backtrace exc raw_backtrace with
      | _ ->
@@ -163,7 +163,7 @@ let raise_without_backtrace e =
   (* We clear the backtrace to reduce confusion, so that people don't think whatever
      is stored corresponds to this raise. *)
   clear_backtrace ();
-  Caml.raise_notrace e
+  Stdlib.raise_notrace e
 ;;
 
 let initialize_module () = set_uncaught_exception_handler ()

@@ -33,13 +33,13 @@ end
 let num_bits = Int_conversions.num_bits_int
 let float_lower_bound = Float0.lower_bound_for_int num_bits
 let float_upper_bound = Float0.upper_bound_for_int num_bits
-let to_float = Caml.float_of_int
-let of_float_unchecked = Caml.int_of_float
+let to_float = Stdlib.float_of_int
+let of_float_unchecked = Stdlib.int_of_float
 
 let of_float f =
   if Float_replace_polymorphic_compare.( >= ) f float_lower_bound
   && Float_replace_polymorphic_compare.( <= ) f float_upper_bound
-  then Caml.int_of_float f
+  then Stdlib.int_of_float f
   else
     Printf.invalid_argf
       "Int.of_float: argument (%f) is out of range or NaN"
@@ -130,8 +130,8 @@ let to_int i = i
 let to_int_exn = to_int
 let of_int i = i
 let of_int_exn = of_int
-let max_value = Caml.max_int
-let min_value = Caml.min_int
+let max_value = Stdlib.max_int
+let min_value = Stdlib.min_int
 let max_value_30_bits = 0x3FFF_FFFF
 let of_int32 = Conv.int32_to_int
 let of_int32_exn = Conv.int32_to_int_exn
@@ -148,8 +148,8 @@ let abs x = abs x
 
 (* note that rem is not same as % *)
 let rem a b = a mod b
-let incr = Caml.incr
-let decr = Caml.decr
+let incr = Stdlib.incr
+let decr = Stdlib.decr
 let shift_right a b = a asr b
 let shift_right_logical a b = a lsr b
 let shift_left a b = a lsl b

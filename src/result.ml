@@ -1,7 +1,7 @@
 open! Import
 module Either = Either0
 
-type ('a, 'b) t = ('a, 'b) Caml.result =
+type ('a, 'b) t = ('a, 'b) Stdlib.result =
   | Ok of 'a
   | Error of 'b
 [@@deriving_inline sexp, sexp_grammar, compare, equal, hash]

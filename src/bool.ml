@@ -30,7 +30,7 @@ module T = struct
     | s -> invalid_argf "Bool.of_string: expected true or false but got %s" s ()
   ;;
 
-  let to_string = Caml.string_of_bool
+  let to_string = Stdlib.string_of_bool
 end
 
 include T

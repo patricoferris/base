@@ -5,26 +5,26 @@ open! Import
    functions are available within this module. *)
 open! Float_replace_polymorphic_compare
 
-let ceil = Caml.ceil
-let floor = Caml.floor
-let mod_float = Caml.mod_float
-let modf = Caml.modf
-let float_of_string = Caml.float_of_string
-let nan = Caml.nan
-let infinity = Caml.infinity
-let neg_infinity = Caml.neg_infinity
-let max_finite_value = Caml.max_float
-let epsilon_float = Caml.epsilon_float
-let classify_float = Caml.classify_float
-let abs_float = Caml.abs_float
+let ceil = Stdlib.ceil
+let floor = Stdlib.floor
+let mod_float = Stdlib.mod_float
+let modf = Stdlib.modf
+let float_of_string = Stdlib.float_of_string
+let nan = Stdlib.nan
+let infinity = Stdlib.infinity
+let neg_infinity = Stdlib.neg_infinity
+let max_finite_value = Stdlib.max_float
+let epsilon_float = Stdlib.epsilon_float
+let classify_float = Stdlib.classify_float
+let abs_float = Stdlib.abs_float
 let is_integer = Caml.Float.is_integer
-let ( ** ) = Caml.( ** )
+let ( ** ) = Stdlib.( ** )
 
 let ( %. ) a b =
   (* Raise in case of a negative modulus, as does Int.( % ). *)
   if b < 0.
   then Printf.invalid_argf "%f %% %f in float0.ml: modulus should be positive" a b ();
-  let m = Caml.mod_float a b in
+  let m = Stdlib.mod_float a b in
   (* Produce a non-negative result in analogy with Int.( % ). *)
   if m < 0. then m +. b else m
 ;;
@@ -32,16 +32,16 @@ let ( %. ) a b =
 (* The bits of INRIA's [Pervasives] that we just want to expose in [Float]. Most are
    already deprecated in [Pervasives], and eventually all of them should be. *)
 include (
-  Caml :
+  Stdlib :
   sig
     external frexp : float -> float * int = "caml_frexp_float"
 
-    external ldexp
+    (* external ldexp
       :  (float[@unboxed])
       -> (int[@untagged])
       -> (float[@unboxed])
       = "caml_ldexp_float" "caml_ldexp_float_unboxed"
-    [@@noalloc]
+    [@@noalloc] *)
 
     external log10 : float -> float = "caml_log10_float" "log10" [@@unboxed] [@@noalloc]
 
@@ -77,7 +77,7 @@ include (
 
 (* We need this indirection because these are exposed as "val" instead of "external" *)
 let frexp = frexp
-let ldexp = ldexp
+let ldexp = Stdlib.ldexp
 let is_nan x = (x : float) <> x
 
 (* An order-preserving bijection between all floats except for NaNs, and 99.95% of
@@ -112,7 +112,7 @@ let of_int64_preserve_order x =
 
 let one_ulp dir t =
   match to_int64_preserve_order t with
-  | None -> Caml.nan
+  | None -> Stdlib.nan
   | Some x ->
     of_int64_preserve_order
       (Caml.Int64.add
@@ -144,7 +144,7 @@ let one_ulp dir t =
    [upper_bound_for_int x  <    2 ** (1-x) ]
 *)
 let upper_bound_for_int num_bits =
-  let exp = Caml.float_of_int (num_bits - 1) in
+  let exp = Stdlib.float_of_int (num_bits - 1) in
   one_ulp `Down (2. ** exp)
 ;;
 
@@ -160,7 +160,7 @@ let is_x_minus_one_exact x =
 ;;
 
 let lower_bound_for_int num_bits =
-  let exp = Caml.float_of_int (num_bits - 1) in
+  let exp = Stdlib.float_of_int (num_bits - 1) in
   let min_int_as_float = ~-.(2. ** exp) in
   let open Int_replace_polymorphic_compare in
   if num_bits - 1 < 53 (* 53 = #bits in the float's mantissa with sign included *)

@@ -109,8 +109,6 @@ module Caml = struct
 
   module Stack = Caml.Stack (** @canonical Caml.Stack *)
 
-  module Stream = Caml.Stream [@ocaml.warning "-3"] (** @canonical Caml.Stream *)
-
   module String = Caml.StdLabels.String (** @canonical Caml.StdLabels.String *)
 
   module Sys = Caml.Sys (** @canonical Caml.Sys *)
@@ -118,8 +116,6 @@ module Caml = struct
   module Uchar = Caml.Uchar (** @canonical Caml.Uchar *)
 
   module Unit = Caml.Unit (** @canonical Caml.Unit *)
-
-  include Pervasives [@ocaml.warning "-3"]
 
   exception Not_found = Caml.Not_found
 end
@@ -138,16 +134,16 @@ let bool_to_int (x : bool) : int = Caml.Obj.magic x
 (* This need to be declared as an external for the warnings to work properly *)
 external ignore : _ -> unit = "%ignore"
 
-let ( != ) = Caml.( != )
-let ( * ) = Caml.( * )
-let ( ** ) = Caml.( ** )
-let ( *. ) = Caml.( *. )
-let ( + ) = Caml.( + )
-let ( +. ) = Caml.( +. )
-let ( - ) = Caml.( - )
-let ( -. ) = Caml.( -. )
-let ( / ) = Caml.( / )
-let ( /. ) = Caml.( /. )
+let ( != ) = Stdlib.( != )
+let ( * ) = Stdlib.( * )
+let ( ** ) = Stdlib.( ** )
+let ( *. ) = Stdlib.( *. )
+let ( + ) = Stdlib.( + )
+let ( +. ) = Stdlib.( +. )
+let ( - ) = Stdlib.( - )
+let ( -. ) = Stdlib.( -. )
+let ( / ) = Stdlib.( / )
+let ( /. ) = Stdlib.( /. )
 
 module Poly = Poly0 (** @canonical Base.Poly *)
 
@@ -326,34 +322,34 @@ external ( := ) : 'a ref -> 'a -> unit = "%setfield0"
 external ( ! ) : 'a ref -> 'a = "%field0"
 external ref : 'a -> 'a ref = "%makemutable"
 
-let ( @ ) = Caml.( @ )
-let ( ^ ) = Caml.( ^ )
-let ( ~- ) = Caml.( ~- )
-let ( ~-. ) = Caml.( ~-. )
-let ( asr ) = Caml.( asr )
-let ( land ) = Caml.( land )
-let lnot = Caml.lnot
-let ( lor ) = Caml.( lor )
-let ( lsl ) = Caml.( lsl )
-let ( lsr ) = Caml.( lsr )
-let ( lxor ) = Caml.( lxor )
-let ( mod ) = Caml.( mod )
-let abs = Caml.abs
-let failwith = Caml.failwith
-let fst = Caml.fst
-let invalid_arg = Caml.invalid_arg
-let snd = Caml.snd
+let ( @ ) = Stdlib.( @ )
+let ( ^ ) = Stdlib.( ^ )
+let ( ~- ) = Stdlib.( ~- )
+let ( ~-. ) = Stdlib.( ~-. )
+let ( asr ) = Stdlib.( asr )
+let ( land ) = Stdlib.( land )
+let lnot = Stdlib.lnot
+let ( lor ) = Stdlib.( lor )
+let ( lsl ) = Stdlib.( lsl )
+let ( lsr ) = Stdlib.( lsr )
+let ( lxor ) = Stdlib.( lxor )
+let ( mod ) = Stdlib.( mod )
+let abs = Stdlib.abs
+let failwith = Stdlib.failwith
+let fst = Stdlib.fst
+let invalid_arg = Stdlib.invalid_arg
+let snd = Stdlib.snd
 
 (* [raise] needs to be defined as an external as the compiler automatically replaces
    '%raise' by '%reraise' when appropriate. *)
 external raise : exn -> _ = "%raise"
 
-let phys_equal = Caml.( == )
-let decr = Caml.decr
-let incr = Caml.incr
+let phys_equal = Stdlib.( == )
+let decr = Stdlib.decr
+let incr = Stdlib.incr
 
 (* used by sexp_conv, which float0 depends on through option *)
-let float_of_string = Caml.float_of_string
+let float_of_string = Stdlib.float_of_string
 
 (* [am_testing] is used in a few places to behave differently when in testing mode, such
    as in [random.ml].  [am_testing] is implemented using [Base_am_testing], a weak C/js

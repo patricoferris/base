@@ -232,8 +232,8 @@ module State = struct
     let open Float_replace_polymorphic_compare in
     let scale = 0x1p-30 in
     (* 2^-30 *)
-    let r1 = Caml.float_of_int (bits state) in
-    let r2 = Caml.float_of_int (bits state) in
+    let r1 = Stdlib.float_of_int (bits state) in
+    let r2 = Stdlib.float_of_int (bits state) in
     let result = ((r1 *. scale) +. r2) *. scale in
     (* With very small probability, result can round up to 1.0, so in that case, we just
        try again. *)
@@ -244,7 +244,7 @@ module State = struct
 
   let float_range state lo hi =
     let open Float_replace_polymorphic_compare in
-    if lo > hi then raise_crossed_bounds "float" lo hi Caml.string_of_float;
+    if lo > hi then raise_crossed_bounds "float" lo hi Stdlib.string_of_float;
     lo +. float state (hi -. lo)
   ;;
 end
